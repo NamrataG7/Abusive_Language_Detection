@@ -9,10 +9,10 @@ evaluated separately:
 1. **Individual classical classifiers** — Support Vector Machine (SVM),
    K-Nearest Neighbours (KNN), Logistic Regression (LR), Multinomial Naive
    Bayes (NB), Gradient Boosting (GB), and Random Forest (RF), implemented
-   in `AAA_single_algorithms_experiment.py`.
+   in `single_algorithms_experiment.py`.
 2. **Ensemble approaches** — combinations of the above base learners
    (e.g. soft/hard voting and related ensemble strategies), implemented in
-   `AAA_ensemble_experiment.py`.
+   `ensemble_experiment.py`.
 
 Both experiments share a unified TF-IDF feature representation, stratified
 5-fold cross-validation, and a common set of evaluation metrics, so that
@@ -55,8 +55,8 @@ be analysed on equal footing.
 
 ```
 Abusive_Language_Detection/
-├── AAA_single_algorithms_experiment.py   # Individual classical classifiers
-├── AAA_ensemble_experiment.py            # Ensemble approaches
+├── single_algorithms_experiment.py   # Individual classical classifiers
+├── ensemble_experiment.py            # Ensemble approaches
 ├── Updated_dataset.csv                   # Labelled corpus
 ├── requirements.txt                      # Python dependencies
 ├── results/                              # Aggregated experimental results
@@ -123,8 +123,8 @@ pip install -r requirements.txt
    from the current working directory:
 
    ```bash
-   python AAA_single_algorithms_experiment.py
-   python AAA_ensemble_experiment.py
+   python single_algorithms_experiment.py
+   python ensemble_experiment.py
    ```
 
 Each script performs dataset validation, TF-IDF feature extraction,
@@ -135,7 +135,7 @@ the `results/` directory.
 
 ## Results
 
-- `results/AAA_algorithm_results.csv` and `results/AAA_ensemble_results.csv` were regenerated on `Updated_dataset.csv` on 2026-08-29. Corresponding run logs are in `results/single_run.log` and `results/ensemble_run.log`.
+- `results/algorithm_results.csv` and `results/ensemble_results.csv` were regenerated on `Updated_dataset.csv` on 2026-08-29. Corresponding run logs are in `results/single_run.log` and `results/ensemble_run.log`.
 
 ---
 

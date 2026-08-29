@@ -545,10 +545,10 @@ for metric in [
     )
 
 summary.to_csv(
-    "AAA_algorithm_results.csv"
+    "algorithm_results.csv"
 )
 
 print("\nResults saved to:")
-print("AAA_algorithm_results.csv")
+print("algorithm_results.csv")
 
 print("\nExperiment completed.")
