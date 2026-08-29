@@ -118,6 +118,15 @@ Install:
 pip install -r requirements.txt
 ```
 
+The feature-ablation experiment uses NLTK's VADER sentiment analyser and
+POS tagger. After installing the Python packages, download the required
+NLTK data (one-time):
+
+```bash
+python -m nltk.downloader vader_lexicon punkt punkt_tab \
+    averaged_perceptron_tagger averaged_perceptron_tagger_eng
+```
+
 ---
 
 ## How to Reproduce
