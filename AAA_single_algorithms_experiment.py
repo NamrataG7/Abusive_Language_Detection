@@ -130,8 +130,11 @@ def make_classifier(name):
 
 
 def make_text_pipeline(name):
-    # For the five standard classifiers, TF-IDF is fitted inside
-    # each cross-validation training fold.
+    # GB uses its own TF-IDF -> TruncatedSVD -> GB pipeline directly
+    # (dense features are needed for GradientBoostingClassifier).
+    # The other classifiers share a common TF-IDF -> classifier pipeline.
+    if name == "GB":
+        return make_classifier(name)
     return Pipeline([
         ("tfidf", TfidfVectorizer(**TFIDF_PARAMS)),
         ("classifier", make_classifier(name))

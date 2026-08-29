@@ -1,0 +1,218 @@
+======================================================================
+LOADING DATASET
+======================================================================
+
+Dataset shape: (20114, 6)
+
+Label distribution:
+label
+0    17581
+1     2533
+Name: count, dtype: int64
+
+Dataset validation passed.
+
+Abusive: 2533
+Non-abusive: 17581
+Abusive %: 12.59
+
+======================================================================
+SVM
+======================================================================
+
+Starting Fold 1...
+Fold 1: Accuracy=0.9346, Precision=0.7181, Specificity=0.9554, Recall=0.7905, Macro-F1=0.8575
+
+Starting Fold 2...
+Fold 2: Accuracy=0.9381, Precision=0.7329, Specificity=0.9579, Recall=0.8008, Macro-F1=0.8648
+
+Starting Fold 3...
+Fold 3: Accuracy=0.9331, Precision=0.7073, Specificity=0.9522, Recall=0.8008, Macro-F1=0.8563
+
+Starting Fold 4...
+Fold 4: Accuracy=0.9418, Precision=0.7532, Specificity=0.9622, Recall=0.8008, Macro-F1=0.8714
+
+Starting Fold 5...
+Fold 5: Accuracy=0.9371, Precision=0.7239, Specificity=0.9556, Recall=0.8083, Macro-F1=0.8637
+
+----------------------------------------------------------------------
+SVM MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.9370
+Precision   : 0.7271
+Specificity : 0.9567
+Recall      : 0.8002
+Macro-F1    : 0.8627
+
+======================================================================
+KNN
+======================================================================
+
+Starting Fold 1...
+Fold 1: Accuracy=0.8755, Precision=0.6923, Specificity=0.9989, Recall=0.0178, Macro-F1=0.4841
+
+Starting Fold 2...
+Fold 2: Accuracy=0.8765, Precision=0.6471, Specificity=0.9966, Recall=0.0434, Macro-F1=0.5076
+
+Starting Fold 3...
+Fold 3: Accuracy=0.8750, Precision=0.6429, Specificity=0.9986, Recall=0.0178, Macro-F1=0.4839
+
+Starting Fold 4...
+Fold 4: Accuracy=0.8780, Precision=1.0000, Specificity=1.0000, Recall=0.0316, Macro-F1=0.4980
+
+Starting Fold 5...
+Fold 5: Accuracy=0.8767, Precision=0.6389, Specificity=0.9963, Recall=0.0455, Macro-F1=0.5094
+
+----------------------------------------------------------------------
+KNN MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.8763
+Precision   : 0.7242
+Specificity : 0.9981
+Recall      : 0.0312
+Macro-F1    : 0.4966
+
+======================================================================
+LR
+======================================================================
+
+Starting Fold 1...
+Fold 1: Accuracy=0.9364, Precision=0.7273, Specificity=0.9574, Recall=0.7905, Macro-F1=0.8605
+
+Starting Fold 2...
+Fold 2: Accuracy=0.9423, Precision=0.7495, Specificity=0.9608, Recall=0.8146, Macro-F1=0.8738
+
+Starting Fold 3...
+Fold 3: Accuracy=0.9391, Precision=0.7331, Specificity=0.9573, Recall=0.8126, Macro-F1=0.8678
+
+Starting Fold 4...
+Fold 4: Accuracy=0.9411, Precision=0.7428, Specificity=0.9593, Recall=0.8146, Macro-F1=0.8716
+
+Starting Fold 5...
+Fold 5: Accuracy=0.9438, Precision=0.7518, Specificity=0.9608, Recall=0.8261, Macro-F1=0.8774
+
+----------------------------------------------------------------------
+LR MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.9405
+Precision   : 0.7409
+Specificity : 0.9591
+Recall      : 0.8117
+Macro-F1    : 0.8702
+
+======================================================================
+NB
+======================================================================
+
+Starting Fold 1...
+Fold 1: Accuracy=0.8966, Precision=0.9327, Specificity=0.9980, Recall=0.1917, Macro-F1=0.6310
+
+Starting Fold 2...
+Fold 2: Accuracy=0.8961, Precision=0.9406, Specificity=0.9983, Recall=0.1874, Macro-F1=0.6282
+
+Starting Fold 3...
+Fold 3: Accuracy=0.8971, Precision=0.9515, Specificity=0.9986, Recall=0.1933, Macro-F1=0.6328
+
+Starting Fold 4...
+Fold 4: Accuracy=0.8978, Precision=0.9615, Specificity=0.9989, Recall=0.1972, Macro-F1=0.6360
+
+Starting Fold 5...
+Fold 5: Accuracy=0.8983, Precision=0.9533, Specificity=0.9986, Recall=0.2016, Macro-F1=0.6389
+
+----------------------------------------------------------------------
+NB MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.8972
+Precision   : 0.9479
+Specificity : 0.9985
+Recall      : 0.1942
+Macro-F1    : 0.6334
+
+======================================================================
+GB
+======================================================================
+
+Starting Fold 1...
+Fold 1: Accuracy=0.9316, Precision=0.8367, Specificity=0.9841, Recall=0.5672, Macro-F1=0.8189
+
+Starting Fold 2...
+Fold 2: Accuracy=0.9336, Precision=0.8614, Specificity=0.9869, Recall=0.5641, Macro-F1=0.8224
+
+Starting Fold 3...
+Fold 3: Accuracy=0.9262, Precision=0.8221, Specificity=0.9835, Recall=0.5286, Macro-F1=0.8011
+
+Starting Fold 4...
+Fold 4: Accuracy=0.9326, Precision=0.8471, Specificity=0.9852, Recall=0.5680, Macro-F1=0.8212
+
+Starting Fold 5...
+Fold 5: Accuracy=0.9326, Precision=0.8550, Specificity=0.9863, Recall=0.5593, Macro-F1=0.8193
+
+----------------------------------------------------------------------
+GB MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.9313
+Precision   : 0.8445
+Specificity : 0.9852
+Recall      : 0.5574
+Macro-F1    : 0.8166
+
+======================================================================
+RF
+======================================================================
+
+Selected Random Forest configuration:
+{'n_estimators': 200, 'max_depth': None, 'min_samples_leaf': 1, 'max_features': 'sqrt', 'class_weight': 'balanced'}
+
+Starting Fold 1...
+Fold 1: Accuracy=0.9476, Precision=0.8315, Specificity=0.9787, Recall=0.7312, Macro-F1=0.8742
+
+Starting Fold 2...
+Fold 2: Accuracy=0.9488, Precision=0.8103, Specificity=0.9738, Recall=0.7751, Macro-F1=0.8816
+
+Starting Fold 3...
+Fold 3: Accuracy=0.9461, Precision=0.7866, Specificity=0.9693, Recall=0.7850, Macro-F1=0.8775
+
+Starting Fold 4...
+Fold 4: Accuracy=0.9533, Precision=0.8302, Specificity=0.9767, Recall=0.7909, Macro-F1=0.8917
+
+Starting Fold 5...
+Fold 5: Accuracy=0.9513, Precision=0.8312, Specificity=0.9775, Recall=0.7688, Macro-F1=0.8855
+
+----------------------------------------------------------------------
+RF MEAN RESULTS
+----------------------------------------------------------------------
+Accuracy    : 0.9494
+Precision   : 0.8180
+Specificity : 0.9752
+Recall      : 0.7702
+Macro-F1    : 0.8821
+
+Selected thresholds: [0.4, 0.35, 0.35, 0.35, 0.35]
+Mean threshold: 0.36
+
+
+================================================================================
+FINAL MODEL COMPARISON
+================================================================================
+     Accuracy  Precision  Specificity  Recall  Macro-F1
+SVM    0.9370     0.7271       0.9567  0.8002    0.8627
+KNN    0.8763     0.7242       0.9981  0.0312    0.4966
+LR     0.9405     0.7409       0.9591  0.8117    0.8702
+NB     0.8972     0.9479       0.9985  0.1942    0.6334
+GB     0.9313     0.8445       0.9852  0.5574    0.8166
+RF     0.9494     0.8180       0.9752  0.7702    0.8821
+
+================================================================================
+BEST MODEL
+================================================================================
+Model: RF
+Macro-F1: 0.8821
+Accuracy: 0.9494
+Precision: 0.8180
+Specificity: 0.9752
+Recall: 0.7702
+
+Results saved to:
+AAA_algorithm_results.csv
+
+Experiment completed.

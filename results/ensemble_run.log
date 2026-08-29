@@ -1,0 +1,203 @@
+======================================================================
+LOADING DEDUPLICATED DATASET
+======================================================================
+Dataset shape: (20114, 6)
+
+Label distribution:
+label
+0    17581
+1     2533
+Name: count, dtype: int64
+
+======================================================================
+ENSEMBLE A: SVM + KNN + RF
+======================================================================
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+Fold 1: Accuracy=0.9471, Precision=0.9104, Specificity=0.9909, Recall=0.6423, Macro-F1=0.8618
+Fold 2: Accuracy=0.9466, Precision=0.8967, Specificity=0.9892, Recall=0.6509, Macro-F1=0.8622
+Fold 3: Accuracy=0.9411, Precision=0.8668, Specificity=0.9861, Recall=0.6292, Macro-F1=0.8480
+Fold 4: Accuracy=0.9446, Precision=0.8989, Specificity=0.9898, Recall=0.6312, Macro-F1=0.8553
+Fold 5: Accuracy=0.9438, Precision=0.8911, Specificity=0.9889, Recall=0.6304, Macro-F1=0.8535
+
+Mean:
+Accuracy=0.9446, Precision=0.8928, Specificity=0.9890, Recall=0.6368, Macro-F1=0.8561
+
+======================================================================
+ENSEMBLE B: SVM + RF + LR
+======================================================================
+Fold 1: Accuracy=0.9421, Precision=0.7671, Specificity=0.9662, Recall=0.7747, Macro-F1=0.8689
+Fold 2: Accuracy=0.9466, Precision=0.7829, Specificity=0.9681, Recall=0.7968, Macro-F1=0.8796
+Fold 3: Accuracy=0.9423, Precision=0.7589, Specificity=0.9636, Recall=0.7949, Macro-F1=0.8717
+Fold 4: Accuracy=0.9466, Precision=0.7863, Specificity=0.9690, Recall=0.7909, Macro-F1=0.8790
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: divide by zero encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: overflow encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+/Users/nagaikwa/Library/Python/3.9/lib/python/site-packages/sklearn/linear_model/_linear_loss.py:209: RuntimeWarning: invalid value encountered in matmul
+  norm2_w = weights @ weights if weights.ndim == 1 else squared_norm(weights)
+Fold 5: Accuracy=0.9473, Precision=0.7805, Specificity=0.9673, Recall=0.8083, Macro-F1=0.8820
+
+Mean:
+Accuracy=0.9450, Precision=0.7752, Specificity=0.9668, Recall=0.7931, Macro-F1=0.8762
+
+======================================================================
+ENSEMBLE C: SVM + KNN + LR
+======================================================================
+Fold 1: Accuracy=0.9418, Precision=0.7698, Specificity=0.9670, Recall=0.7668, Macro-F1=0.8675
+Fold 2: Accuracy=0.9463, Precision=0.7859, Specificity=0.9690, Recall=0.7890, Macro-F1=0.8783
+Fold 3: Accuracy=0.9408, Precision=0.7602, Specificity=0.9647, Recall=0.7751, Macro-F1=0.8668
+Fold 4: Accuracy=0.9463, Precision=0.7904, Specificity=0.9701, Recall=0.7811, Macro-F1=0.8775
+Fold 5: Accuracy=0.9458, Precision=0.7769, Specificity=0.9670, Recall=0.7984, Macro-F1=0.8782
+
+Mean:
+Accuracy=0.9442, Precision=0.7766, Specificity=0.9676, Recall=0.7821, Macro-F1=0.8737
+
+======================================================================
+ENSEMBLE D: KNN + RF + LR
+======================================================================
+Fold 1: Accuracy=0.9473, Precision=0.9038, Specificity=0.9900, Recall=0.6502, Macro-F1=0.8634
+Fold 2: Accuracy=0.9468, Precision=0.8865, Specificity=0.9878, Recall=0.6627, Macro-F1=0.8643
+Fold 3: Accuracy=0.9431, Precision=0.8658, Specificity=0.9855, Recall=0.6489, Macro-F1=0.8549
+Fold 4: Accuracy=0.9453, Precision=0.8953, Specificity=0.9892, Recall=0.6410, Macro-F1=0.8582
+Fold 5: Accuracy=0.9433, Precision=0.8798, Specificity=0.9875, Recall=0.6364, Macro-F1=0.8534
+
+Mean:
+Accuracy=0.9452, Precision=0.8863, Specificity=0.9880, Recall=0.6478, Macro-F1=0.8588
+
+======================================================================
+ENSEMBLE E: SVM + KNN + RF + LR
+======================================================================
+Fold 1: Accuracy=0.9471, Precision=0.9104, Specificity=0.9909, Recall=0.6423, Macro-F1=0.8618
+Fold 2: Accuracy=0.9468, Precision=0.8992, Specificity=0.9895, Recall=0.6509, Macro-F1=0.8627
+Fold 3: Accuracy=0.9413, Precision=0.8692, Specificity=0.9863, Recall=0.6292, Macro-F1=0.8485
+Fold 4: Accuracy=0.9448, Precision=0.9014, Specificity=0.9900, Recall=0.6312, Macro-F1=0.8558
+Fold 5: Accuracy=0.9436, Precision=0.8908, Specificity=0.9889, Recall=0.6285, Macro-F1=0.8527
+
+Mean:
+Accuracy=0.9447, Precision=0.8942, Specificity=0.9891, Recall=0.6364, Macro-F1=0.8563
+
+======================================================================
+FINAL ENSEMBLE COMPARISON
+======================================================================
+   Accuracy  Precision  Specificity  Recall  Macro-F1
+A    0.9446     0.8928       0.9890  0.6368    0.8561
+B    0.9450     0.7752       0.9668  0.7931    0.8762
+C    0.9442     0.7766       0.9676  0.7821    0.8737
+D    0.9452     0.8863       0.9880  0.6478    0.8588
+E    0.9447     0.8942       0.9891  0.6364    0.8563
+
+Results saved to: AAA_ensemble_results.csv
+Experiment completed.
