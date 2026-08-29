@@ -1,0 +1,268 @@
+
+==========================================================================================
+ABUSIVE LANGUAGE DETECTION
+FEATURE ABLATION + CLASSIFIER EVALUATION
+==========================================================================================
+
+Dataset shape:
+(20114, 6)
+
+Class distribution:
+label
+0    17581
+1     2533
+Name: count, dtype: int64
+
+##########################################################################################
+# STAGE 1: RANDOM FOREST FEATURE ABLATION
+##########################################################################################
+
+==========================================================================================
+FEATURE EXPERIMENT: Baseline_Word_TFIDF
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8642 | Recall=0.6561 | Prediction=0.0324s
+
+Fold 2/5
+Macro-F1=0.8625 | Recall=0.6568 | Prediction=0.0320s
+
+Fold 3/5
+Macro-F1=0.8528 | Recall=0.6509 | Prediction=0.0325s
+
+Fold 4/5
+Macro-F1=0.8564 | Recall=0.6391 | Prediction=0.0324s
+
+Fold 5/5
+Macro-F1=0.8534 | Recall=0.6364 | Prediction=0.0414s
+
+==========================================================================================
+FEATURE EXPERIMENT: E1_Character_TFIDF
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8760 | Recall=0.7431 | Prediction=0.0316s
+
+Fold 2/5
+Macro-F1=0.8900 | Recall=0.7633 | Prediction=0.0383s
+
+Fold 3/5
+Macro-F1=0.8759 | Recall=0.7574 | Prediction=0.0395s
+
+Fold 4/5
+Macro-F1=0.8925 | Recall=0.7633 | Prediction=0.0380s
+
+Fold 5/5
+Macro-F1=0.8896 | Recall=0.7609 | Prediction=0.0263s
+
+==========================================================================================
+FEATURE EXPERIMENT: E2_Hybrid_Word_Character
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8765 | Recall=0.7470 | Prediction=0.0280s
+
+Fold 2/5
+Macro-F1=0.8939 | Recall=0.7732 | Prediction=0.0267s
+
+Fold 3/5
+Macro-F1=0.8750 | Recall=0.7535 | Prediction=0.0395s
+
+Fold 4/5
+Macro-F1=0.8924 | Recall=0.7574 | Prediction=0.0396s
+
+Fold 5/5
+Macro-F1=0.8880 | Recall=0.7549 | Prediction=0.0273s
+
+==========================================================================================
+FEATURE EXPERIMENT: E3_Hybrid_Lexical
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8725 | Recall=0.7372 | Prediction=0.0363s
+
+Fold 2/5
+Macro-F1=0.8901 | Recall=0.7594 | Prediction=0.0270s
+
+Fold 3/5
+Macro-F1=0.8766 | Recall=0.7554 | Prediction=0.0278s
+
+Fold 4/5
+Macro-F1=0.8932 | Recall=0.7554 | Prediction=0.0276s
+
+Fold 5/5
+Macro-F1=0.8840 | Recall=0.7451 | Prediction=0.0277s
+
+==========================================================================================
+FEATURE EXPERIMENT: E4_Hybrid_Lexical_Punctuation_Emoji
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8739 | Recall=0.7332 | Prediction=0.0375s
+
+Fold 2/5
+Macro-F1=0.8902 | Recall=0.7653 | Prediction=0.0278s
+
+Fold 3/5
+Macro-F1=0.8741 | Recall=0.7495 | Prediction=0.0263s
+
+Fold 4/5
+Macro-F1=0.8912 | Recall=0.7554 | Prediction=0.0278s
+
+Fold 5/5
+Macro-F1=0.8844 | Recall=0.7490 | Prediction=0.0273s
+
+==========================================================================================
+FEATURE EXPERIMENT: E5_Hybrid_Lexical_Punctuation_Emoji_Lexicon
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8765 | Recall=0.7470 | Prediction=0.0387s
+
+Fold 2/5
+Macro-F1=0.8914 | Recall=0.7673 | Prediction=0.0386s
+
+Fold 3/5
+Macro-F1=0.8771 | Recall=0.7515 | Prediction=0.0277s
+
+Fold 4/5
+Macro-F1=0.8888 | Recall=0.7515 | Prediction=0.0386s
+
+Fold 5/5
+Macro-F1=0.8876 | Recall=0.7510 | Prediction=0.0264s
+
+==========================================================================================
+FEATURE EXPERIMENT: E6_Add_Sentiment
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8758 | Recall=0.7372 | Prediction=0.0266s
+
+Fold 2/5
+Macro-F1=0.8871 | Recall=0.7495 | Prediction=0.0280s
+
+Fold 3/5
+Macro-F1=0.8760 | Recall=0.7495 | Prediction=0.0277s
+
+Fold 4/5
+Macro-F1=0.8878 | Recall=0.7416 | Prediction=0.0264s
+
+Fold 5/5
+Macro-F1=0.8865 | Recall=0.7451 | Prediction=0.0276s
+
+==========================================================================================
+FEATURE EXPERIMENT: E7_Full_Feature_Configuration
+==========================================================================================
+
+Fold 1/5
+Macro-F1=0.8697 | Recall=0.7213 | Prediction=0.0381s
+
+Fold 2/5
+Macro-F1=0.8839 | Recall=0.7377 | Prediction=0.0266s
+
+Fold 3/5
+Macro-F1=0.8731 | Recall=0.7456 | Prediction=0.0277s
+
+Fold 4/5
+Macro-F1=0.8889 | Recall=0.7475 | Prediction=0.0277s
+
+Fold 5/5
+Macro-F1=0.8844 | Recall=0.7391 | Prediction=0.0276s
+
+==========================================================================================
+STAGE 1 RESULTS
+==========================================================================================
+Experiment
+E2_Hybrid_Word_Character                       0.885155
+E1_Character_TFIDF                             0.884799
+E5_Hybrid_Lexical_Punctuation_Emoji_Lexicon    0.884276
+E3_Hybrid_Lexical                              0.883280
+E4_Hybrid_Lexical_Punctuation_Emoji            0.882766
+E6_Add_Sentiment                               0.882631
+E7_Full_Feature_Configuration                  0.879985
+Baseline_Word_TFIDF                            0.857855
+Name: Macro-F1, dtype: float64
+
+BEST FEATURE SET: E2_Hybrid_Word_Character
+RF Macro-F1: 0.8852
+
+##########################################################################################
+# STAGE 2: CLASSIFIER COMPARISON
+##########################################################################################
+
+==========================================================================================
+MODEL: SVM
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.8607
+Fold 2: Macro-F1=0.8714
+Fold 3: Macro-F1=0.8722
+Fold 4: Macro-F1=0.8740
+Fold 5: Macro-F1=0.8716
+
+==========================================================================================
+MODEL: KNN
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.4745
+Fold 2: Macro-F1=0.4933
+Fold 3: Macro-F1=0.4699
+Fold 4: Macro-F1=0.4764
+Fold 5: Macro-F1=0.4812
+
+==========================================================================================
+MODEL: LR
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.8695
+Fold 2: Macro-F1=0.8789
+Fold 3: Macro-F1=0.8774
+Fold 4: Macro-F1=0.8814
+Fold 5: Macro-F1=0.8790
+
+==========================================================================================
+MODEL: NB
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.8185
+Fold 2: Macro-F1=0.8182
+Fold 3: Macro-F1=0.8283
+Fold 4: Macro-F1=0.8322
+Fold 5: Macro-F1=0.8152
+
+==========================================================================================
+MODEL: GB
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.8258
+Fold 2: Macro-F1=0.8340
+Fold 3: Macro-F1=0.8206
+Fold 4: Macro-F1=0.8437
+Fold 5: Macro-F1=0.8310
+
+==========================================================================================
+MODEL: RF
+FEATURE SET: E2_Hybrid_Word_Character
+==========================================================================================
+Fold 1: Macro-F1=0.8765
+Fold 2: Macro-F1=0.8939
+Fold 3: Macro-F1=0.8750
+Fold 4: Macro-F1=0.8924
+Fold 5: Macro-F1=0.8880
+
+==========================================================================================
+FINAL CLASSIFIER COMPARISON
+==========================================================================================
+       Accuracy  Precision  ...  Training_Seconds  Prediction_Seconds
+Model                       ...                                      
+RF     0.951626   0.843216  ...          1.593713            0.029597
+LR     0.944367   0.761129  ...          0.209660            0.000673
+SVM    0.942627   0.770708  ...         61.147491           11.098490
+GB     0.934573   0.831960  ...         72.018438            0.035851
+NB     0.930297   0.796521  ...          0.003979            0.002042
+KNN    0.874316   0.613968  ...          0.002075            0.929021
+
+[6 rows x 7 columns]
+
+Experiments complete.
+Results saved in: results/feature_ablation/

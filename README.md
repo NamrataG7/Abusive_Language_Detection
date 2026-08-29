@@ -49,6 +49,21 @@ The two experiment scripts are run independently and each produces its own
 set of aggregated results, allowing the single-model and ensemble regimes to
 be analysed on equal footing.
 
+### Feature Ablation
+
+In addition to the two classifier-focused experiments, `feature_ablation_experiment.py`
+runs a two-stage feature-ablation study. Stage 1 uses Random Forest as a fixed
+probe to compare seven TF-IDF-based feature configurations (word, character,
+hybrid word+character, and progressively enriched hybrid feature sets with
+lexical, punctuation/emoji, lexicon, and sentiment signals) and selects the
+best-performing configuration by macro-F1. Stage 2 then compares all six
+classifiers (SVM, KNN, LR, NB, GB, RF) on the winning feature set under the
+same 5-fold cross-validation protocol. Outputs are written to
+`results/feature_ablation/` as `stage1_rf_feature_ablation_folds.csv`,
+`stage1_rf_feature_ablation_summary.csv`,
+`stage2_classifier_comparison_folds.csv`,
+`stage2_classifier_comparison_summary.csv`, and `FINAL_RESULTS.csv`.
+
 ---
 
 ## Repository Structure
@@ -57,6 +72,7 @@ be analysed on equal footing.
 Abusive_Language_Detection/
 ├── single_algorithms_experiment.py   # Individual classical classifiers
 ├── ensemble_experiment.py            # Ensemble approaches
+├── feature_ablation_experiment.py    # Two-stage feature-ablation study
 ├── Updated_dataset.csv                   # Labelled corpus
 ├── requirements.txt                      # Python dependencies
 ├── results/                              # Aggregated experimental results
@@ -125,6 +141,7 @@ pip install -r requirements.txt
    ```bash
    python single_algorithms_experiment.py
    python ensemble_experiment.py
+   python feature_ablation_experiment.py
    ```
 
 Each script performs dataset validation, TF-IDF feature extraction,
@@ -136,6 +153,7 @@ the `results/` directory.
 ## Results
 
 - `results/algorithm_results.csv` and `results/ensemble_results.csv` were regenerated on `Updated_dataset.csv` on 2026-08-29. Corresponding run logs are in `results/single_run.log` and `results/ensemble_run.log`.
+- `results/feature_ablation/FINAL_RESULTS.csv` reports the Stage 2 classifier comparison on the winning feature configuration selected in Stage 1; per-fold and summary files for both stages are alongside it in `results/feature_ablation/`.
 
 ---
 
