@@ -52,7 +52,7 @@ Abusive_Language_Detection/
 ├── dataset.csv                     # Labelled corpus (20,122 records)
 ├── requirements.txt                # Python dependencies
 ├── results/
-│   └── AAA_algorithm_results.csv   # Per-classifier mean 5-fold results
+│   └── results.csv   # Per-classifier mean 5-fold results
 ├── LICENSE                         # MIT License
 ├── .gitignore
 └── README.md
@@ -197,7 +197,7 @@ python3 -m pip install -r requirements.txt
 The script performs dataset validation, TF-IDF feature extraction, SVD
 reduction for Gradient Boosting, stratified 5-fold cross-validation for all
 six classifiers, Random Forest model selection with threshold tuning, and
-writes the final aggregated results to `results/AAA_algorithm_results.csv`.
+writes the final aggregated results to `results/results.csv`.
 
 The full run is single-machine and CPU-only; on a modern laptop it completes
 in the order of a few minutes.
@@ -207,7 +207,7 @@ in the order of a few minutes.
 ## Results
 
 The following results are the mean of five stratified folds. They are
-reproduced verbatim from `results/AAA_algorithm_results.csv`.
+reproduced verbatim from `results/results.csv`.
 
 | Model | Accuracy | Precision | Specificity | Recall | Macro-F1 |
 |-------|---------:|----------:|------------:|-------:|---------:|
