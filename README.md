@@ -261,21 +261,25 @@ Three observations emerge from the comparison.
 
 ## License
 
-This project is released under the terms of the [MIT License](LICENSE).
+The source code in this repository is released under the terms of the
+[MIT License](LICENSE). The dataset is provided for academic research use
+only. No formal copyright or other intellectual-property registration has
+been filed for the contents of this repository at the time of publication.
 
 ---
 
 ## Citation
 
-If you use this code or the accompanying dataset in your research, please cite
-this repository:
+If you use this code or the accompanying dataset in your research, please
+cite this repository:
 
 ```bibtex
 @misc{aald2025,
   title        = {An Experimental Study of Machine Learning Classifiers for
                   Abusive Language Detection},
-  author       = {Namrata G.},
+  author       = {{NamrataG7}},
   year         = {2025},
-  howpublished = {\url{https://github.com/NamrataG7/Abusive_Language_Detection}}
+  howpublished = {\url{https://github.com/NamrataG7/Abusive_Language_Detection}},
+  note         = {GitHub repository}
 }
 ```
