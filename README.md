@@ -64,6 +64,24 @@ same 5-fold cross-validation protocol. Outputs are written to
 `stage2_classifier_comparison_folds.csv`,
 `stage2_classifier_comparison_summary.csv`, and `FINAL_RESULTS.csv`.
 
+### Enhanced Experiment
+
+`enhanced_experiment.py` extends the feature-ablation study into a four-stage
+pipeline over the same corpus and cross-validation protocol. Stage 1 performs a
+**preprocessing ablation** (raw, stopword removal, stemming, lemmatisation, and
+their combinations) using Random Forest on the E2 hybrid feature set; the
+winning preprocessing is fixed for later stages. Stage 2 repeats the
+**feature ablation** on top of the selected preprocessing. Stage 3 evaluates
+**scaling sensitivity** of numerical features for models known to be
+scale-sensitive (KNN, RF). Stage 4 conducts a final **classifier comparison**
+(SVM, KNN, LR, NB, GB, RF) on the winning preprocessing and feature
+configuration. An optional Stage 0 reproduces the E2 Random Forest baseline
+for direct comparison, and an optional annotation-agreement analysis is run
+when the dataset contains independent annotator label columns. Outputs are
+written to `results/enhanced/` (`stage0_*`, `stage1_*`, `stage2_*`,
+`stage3_*`, `stage4_*` fold and summary CSVs, `FINAL_ENHANCED_RESULTS.csv`,
+and `experiment_manifest.csv`).
+
 ---
 
 ## Repository Structure
@@ -73,6 +91,7 @@ Abusive_Language_Detection/
 ├── single_algorithms_experiment.py   # Individual classical classifiers
 ├── ensemble_experiment.py            # Ensemble approaches
 ├── feature_ablation_experiment.py    # Two-stage feature-ablation study
+├── enhanced_experiment.py            # Multi-stage preprocessing / feature / scaling / classifier ablation
 ├── Updated_dataset.csv                   # Labelled corpus
 ├── requirements.txt                      # Python dependencies
 ├── results/                              # Aggregated experimental results
@@ -151,7 +170,11 @@ python -m nltk.downloader vader_lexicon punkt punkt_tab \
    python single_algorithms_experiment.py
    python ensemble_experiment.py
    python feature_ablation_experiment.py
+   python enhanced_experiment.py --run-stage0
    ```
+
+   Omit `--run-stage0` to skip the E2 baseline reproduction; add
+   `--skip-annotation` to skip the annotator-agreement analysis.
 
 Each script performs dataset validation, TF-IDF feature extraction,
 stratified 5-fold cross-validation, and writes its aggregated results into
@@ -163,6 +186,7 @@ the `results/` directory.
 
 - `results/algorithm_results.csv` and `results/ensemble_results.csv` were regenerated on `Updated_dataset.csv` on 2026-08-29. Corresponding run logs are in `results/single_run.log` and `results/ensemble_run.log`.
 - `results/feature_ablation/FINAL_RESULTS.csv` reports the Stage 2 classifier comparison on the winning feature configuration selected in Stage 1; per-fold and summary files for both stages are alongside it in `results/feature_ablation/`.
+- `results/enhanced/FINAL_ENHANCED_RESULTS.csv` and `results/enhanced/experiment_manifest.csv` summarise the four-stage enhanced experiment (preprocessing → feature → scaling → classifier ablation); per-stage fold and summary CSVs are alongside them in `results/enhanced/`.
 
 ---
 

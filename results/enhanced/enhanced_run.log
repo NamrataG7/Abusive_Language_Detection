@@ -1,0 +1,214 @@
+==========================================================================================
+ENHANCED ABUSIVE-LANGUAGE EXPERIMENT
+==========================================================================================
+Dataset shape: (20114, 6)
+Label distribution:
+label
+0    17581
+1     2533
+Name: count, dtype: int64
+Random state: 42
+CV folds: 5
+
+Annotation agreement: skipped. No independent annotator-label columns were found in the dataset.
+
+==========================================================================================
+STAGE 0: CURRENT E2 REPRODUCTION (RF + HYBRID WORD/CHAR TF-IDF)
+==========================================================================================
+Fold 1: Macro-F1=0.8765, Recall=0.7470
+Fold 2: Macro-F1=0.8939, Recall=0.7732
+Fold 3: Macro-F1=0.8750, Recall=0.7535
+Fold 4: Macro-F1=0.8924, Recall=0.7574
+Fold 5: Macro-F1=0.8880, Recall=0.7549
+
+==========================================================================================
+STAGE 1: PREPROCESSING ABLATION (RF + E2 HYBRID)
+==========================================================================================
+
+P0_None
+  Fold 1: Macro-F1=0.8765
+  Fold 2: Macro-F1=0.8939
+  Fold 3: Macro-F1=0.8750
+  Fold 4: Macro-F1=0.8924
+  Fold 5: Macro-F1=0.8880
+
+P1_Stopword_Removal
+  Fold 1: Macro-F1=0.8736
+  Fold 2: Macro-F1=0.8884
+  Fold 3: Macro-F1=0.8726
+  Fold 4: Macro-F1=0.8983
+  Fold 5: Macro-F1=0.8959
+
+P2_Stemming
+  Fold 1: Macro-F1=0.8815
+  Fold 2: Macro-F1=0.8944
+  Fold 3: Macro-F1=0.8797
+  Fold 4: Macro-F1=0.8947
+  Fold 5: Macro-F1=0.8931
+
+P3_Lemmatization
+  Fold 1: Macro-F1=0.8800
+  Fold 2: Macro-F1=0.8964
+  Fold 3: Macro-F1=0.8788
+  Fold 4: Macro-F1=0.8959
+  Fold 5: Macro-F1=0.8955
+
+P4_Stopword_Stemming
+  Fold 1: Macro-F1=0.8745
+  Fold 2: Macro-F1=0.8989
+  Fold 3: Macro-F1=0.8753
+  Fold 4: Macro-F1=0.8972
+  Fold 5: Macro-F1=0.8916
+
+P5_Stopword_Lemmatization
+  Fold 1: Macro-F1=0.8783
+  Fold 2: Macro-F1=0.8937
+  Fold 3: Macro-F1=0.8759
+  Fold 4: Macro-F1=0.8963
+  Fold 5: Macro-F1=0.8918
+
+Selected preprocessing: P3_Lemmatization (lemmatization), mean Macro-F1=0.8893
+
+==========================================================================================
+STAGE 2: FEATURE ABLATION USING PREPROCESSING=lemmatization
+==========================================================================================
+
+Baseline_Word_TFIDF
+  Fold 1: Macro-F1=0.8644
+  Fold 2: Macro-F1=0.8658
+  Fold 3: Macro-F1=0.8647
+  Fold 4: Macro-F1=0.8769
+  Fold 5: Macro-F1=0.8609
+
+E1_Character_TFIDF
+  Fold 1: Macro-F1=0.8788
+  Fold 2: Macro-F1=0.8902
+  Fold 3: Macro-F1=0.8763
+  Fold 4: Macro-F1=0.8910
+  Fold 5: Macro-F1=0.8914
+
+E2_Hybrid_Word_Character
+  Fold 1: Macro-F1=0.8800
+  Fold 2: Macro-F1=0.8964
+  Fold 3: Macro-F1=0.8788
+  Fold 4: Macro-F1=0.8959
+  Fold 5: Macro-F1=0.8955
+
+E3_Hybrid_Lexical
+  Fold 1: Macro-F1=0.8774
+  Fold 2: Macro-F1=0.8914
+  Fold 3: Macro-F1=0.8823
+  Fold 4: Macro-F1=0.8957
+  Fold 5: Macro-F1=0.8937
+
+E4_Hybrid_Lexical_Punctuation_Emoji
+  Fold 1: Macro-F1=0.8805
+  Fold 2: Macro-F1=0.8922
+  Fold 3: Macro-F1=0.8811
+  Fold 4: Macro-F1=0.8911
+  Fold 5: Macro-F1=0.8920
+
+E5_Hybrid_Lexical_Punctuation_Emoji_Lexicon
+  Fold 1: Macro-F1=0.8800
+  Fold 2: Macro-F1=0.8947
+  Fold 3: Macro-F1=0.8788
+  Fold 4: Macro-F1=0.8950
+  Fold 5: Macro-F1=0.8922
+
+E6_Add_Sentiment
+  Fold 1: Macro-F1=0.8758
+  Fold 2: Macro-F1=0.8913
+  Fold 3: Macro-F1=0.8792
+  Fold 4: Macro-F1=0.8906
+  Fold 5: Macro-F1=0.8926
+
+E7_Full_Feature_Configuration
+  Fold 1: Macro-F1=0.8765
+  Fold 2: Macro-F1=0.8899
+  Fold 3: Macro-F1=0.8820
+  Fold 4: Macro-F1=0.8926
+  Fold 5: Macro-F1=0.8897
+
+Selected feature set: E2_Hybrid_Word_Character, mean Macro-F1=0.8893
+
+==========================================================================================
+STAGE 3: NUMERICAL FEATURE SCALING ABLATION (E7)
+==========================================================================================
+RF | S0_No_Scaling | Fold 1: Macro-F1=0.8765
+RF | S0_No_Scaling | Fold 2: Macro-F1=0.8899
+RF | S0_No_Scaling | Fold 3: Macro-F1=0.8820
+RF | S0_No_Scaling | Fold 4: Macro-F1=0.8926
+RF | S0_No_Scaling | Fold 5: Macro-F1=0.8897
+RF | S1_Scaled_Numerical | Fold 1: Macro-F1=0.8751
+RF | S1_Scaled_Numerical | Fold 2: Macro-F1=0.8895
+RF | S1_Scaled_Numerical | Fold 3: Macro-F1=0.8803
+RF | S1_Scaled_Numerical | Fold 4: Macro-F1=0.8905
+RF | S1_Scaled_Numerical | Fold 5: Macro-F1=0.8975
+KNN | S0_No_Scaling | Fold 1: Macro-F1=0.5528
+KNN | S0_No_Scaling | Fold 2: Macro-F1=0.5280
+KNN | S0_No_Scaling | Fold 3: Macro-F1=0.5351
+KNN | S0_No_Scaling | Fold 4: Macro-F1=0.5493
+KNN | S0_No_Scaling | Fold 5: Macro-F1=0.5415
+KNN | S1_Scaled_Numerical | Fold 1: Macro-F1=0.6278
+KNN | S1_Scaled_Numerical | Fold 2: Macro-F1=0.5942
+KNN | S1_Scaled_Numerical | Fold 3: Macro-F1=0.6015
+KNN | S1_Scaled_Numerical | Fold 4: Macro-F1=0.5904
+KNN | S1_Scaled_Numerical | Fold 5: Macro-F1=0.5812
+
+==========================================================================================
+STAGE 4: CLASSIFIER COMPARISON
+Preprocessing=lemmatization
+Feature configuration={'use_word': True, 'use_char': True}
+==========================================================================================
+
+SVM
+  Fold 1: Accuracy=0.9381, Precision=0.7495, Specificity=0.9633, Recall=0.7628, Macro-F1=0.8603
+  Fold 2: Accuracy=0.9453, Precision=0.7786, Specificity=0.9676, Recall=0.7909, Macro-F1=0.8767
+  Fold 3: Accuracy=0.9411, Precision=0.7519, Specificity=0.9622, Recall=0.7949, Macro-F1=0.8695
+  Fold 4: Accuracy=0.9448, Precision=0.7767, Specificity=0.9673, Recall=0.7890, Macro-F1=0.8756
+  Fold 5: Accuracy=0.9411, Precision=0.7653, Specificity=0.9662, Recall=0.7668, Macro-F1=0.8662
+
+KNN
+  Fold 1: Accuracy=0.8752, Precision=0.7000, Specificity=0.9991, Recall=0.0138, Macro-F1=0.4802
+  Fold 2: Accuracy=0.8762, Precision=0.7647, Specificity=0.9989, Recall=0.0256, Macro-F1=0.4917
+  Fold 3: Accuracy=0.8727, Precision=0.3077, Specificity=0.9974, Recall=0.0079, Macro-F1=0.4737
+  Fold 4: Accuracy=0.8762, Precision=1.0000, Specificity=1.0000, Recall=0.0178, Macro-F1=0.4844
+  Fold 5: Accuracy=0.8734, Precision=0.4286, Specificity=0.9966, Recall=0.0178, Macro-F1=0.4832
+
+LR
+  Fold 1: Accuracy=0.9398, Precision=0.7454, Specificity=0.9610, Recall=0.7925, Macro-F1=0.8668
+  Fold 2: Accuracy=0.9466, Precision=0.7704, Specificity=0.9647, Recall=0.8205, Macro-F1=0.8820
+  Fold 3: Accuracy=0.9446, Precision=0.7527, Specificity=0.9605, Recall=0.8343, Macro-F1=0.8797
+  Fold 4: Accuracy=0.9473, Precision=0.7737, Specificity=0.9653, Recall=0.8225, Macro-F1=0.8835
+  Fold 5: Accuracy=0.9455, Precision=0.7692, Specificity=0.9650, Recall=0.8103, Macro-F1=0.8790
+
+NB
+  Fold 1: Accuracy=0.9309, Precision=0.8167, Specificity=0.9812, Recall=0.5810, Macro-F1=0.8201
+  Fold 2: Accuracy=0.9297, Precision=0.8111, Specificity=0.9807, Recall=0.5759, Macro-F1=0.8171
+  Fold 3: Accuracy=0.9316, Precision=0.8169, Specificity=0.9809, Recall=0.5897, Macro-F1=0.8233
+  Fold 4: Accuracy=0.9331, Precision=0.8362, Specificity=0.9835, Recall=0.5838, Macro-F1=0.8251
+  Fold 5: Accuracy=0.9321, Precision=0.8282, Specificity=0.9827, Recall=0.5810, Macro-F1=0.8225
+
+GB
+  Fold 1: Accuracy=0.9344, Precision=0.8168, Specificity=0.9801, Recall=0.6166, Macro-F1=0.8329
+  Fold 2: Accuracy=0.9408, Precision=0.8530, Specificity=0.9841, Recall=0.6410, Macro-F1=0.8494
+  Fold 3: Accuracy=0.9339, Precision=0.8082, Specificity=0.9787, Recall=0.6233, Macro-F1=0.8333
+  Fold 4: Accuracy=0.9393, Precision=0.8507, Specificity=0.9841, Recall=0.6292, Macro-F1=0.8446
+  Fold 5: Accuracy=0.9396, Precision=0.8564, Specificity=0.9849, Recall=0.6245, Macro-F1=0.8442
+
+RF
+  Fold 1: Accuracy=0.9493, Precision=0.8283, Specificity=0.9775, Recall=0.7530, Macro-F1=0.8800
+  Fold 2: Accuracy=0.9558, Precision=0.8493, Specificity=0.9798, Recall=0.7890, Macro-F1=0.8964
+  Fold 3: Accuracy=0.9478, Precision=0.8087, Specificity=0.9738, Recall=0.7673, Macro-F1=0.8788
+  Fold 4: Accuracy=0.9563, Precision=0.8653, Specificity=0.9827, Recall=0.7732, Macro-F1=0.8959
+  Fold 5: Accuracy=0.9562, Precision=0.8667, Specificity=0.9829, Recall=0.7708, Macro-F1=0.8955
+
+Best individual classifier by mean Macro-F1: RF (0.8893)
+
+==========================================================================================
+EXPERIMENT COMPLETED
+==========================================================================================
+Selected preprocessing: lemmatization
+Selected feature set: E2_Hybrid_Word_Character
+Best classifier by Macro-F1: RF
+Results directory: results/enhanced
