@@ -48,8 +48,9 @@ from sklearn.metrics import (
     f1_score,
     precision_score,
     recall_score,
+    classification_report,
 )
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
@@ -67,6 +68,9 @@ N_SPLITS = 5
 # suitable annotator columns are present. It does not invent labels when they
 # are absent.
 RUN_ANNOTATION_AGREEMENT = True
+
+# New diagnostics are additive and do not alter the existing experiment.
+RUN_NEW_DIAGNOSTICS = True
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -440,12 +444,12 @@ PREPROCESSING_EXPERIMENTS = {
 
 # ------------------------- Models and metrics -------------------------
 
-def create_model(name):
+def create_model(name, balanced=True):
     if name == "SVM":
-        return SVC(kernel="linear", C=1.0, class_weight="balanced")
+        return SVC(kernel="linear", C=1.0, class_weight=("balanced" if balanced else None))
     if name == "LR":
         return LogisticRegression(
-            C=1.0, penalty="l2", class_weight="balanced",
+            C=1.0, penalty="l2", class_weight=("balanced" if balanced else None),
             max_iter=2000, random_state=RANDOM_STATE,
         )
     if name == "KNN":
@@ -453,7 +457,7 @@ def create_model(name):
     if name == "RF":
         return RandomForestClassifier(
             n_estimators=200, max_depth=None, min_samples_leaf=1,
-            max_features="sqrt", class_weight="balanced",
+            max_features="sqrt", class_weight=("balanced" if balanced else None),
             random_state=RANDOM_STATE, n_jobs=-1,
         )
     if name == "NB":
@@ -472,12 +476,22 @@ def create_model(name):
 def calculate_metrics(y_true, y_pred):
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
     specificity = tn / (tn + fp) if (tn + fp) else 0.0
+    report = classification_report(
+        y_true, y_pred, labels=[0, 1], output_dict=True, zero_division=0
+    )
     return {
         "Accuracy": accuracy_score(y_true, y_pred),
         "Precision": precision_score(y_true, y_pred, zero_division=0),
         "Specificity": specificity,
         "Recall": recall_score(y_true, y_pred, zero_division=0),
         "Macro-F1": f1_score(y_true, y_pred, average="macro", zero_division=0),
+        "NonAbusive_Precision": report["0"]["precision"],
+        "NonAbusive_Recall": report["0"]["recall"],
+        "NonAbusive_F1": report["0"]["f1-score"],
+        "Abusive_Precision": report["1"]["precision"],
+        "Abusive_Recall": report["1"]["recall"],
+        "Abusive_F1": report["1"]["f1-score"],
+        "TN": int(tn), "FP": int(fp), "FN": int(fn), "TP": int(tp),
     }
 
 
@@ -724,6 +738,206 @@ def run_classifier_comparison(X, y, cv, preprocessing, feature_config):
     return out, best_model
 
 
+
+# ------------------------- New additive diagnostics -------------------------
+
+def run_majority_baseline(y, cv):
+    """Evaluate the trivial majority-class baseline using the same CV folds."""
+    rows = []
+    majority = int(pd.Series(y).mode().iloc[0])
+    for fold, (_, test_idx) in enumerate(cv.split(np.zeros(len(y)), y), start=1):
+        pred = np.full(len(test_idx), majority, dtype=int)
+        rows.append({"Fold": fold, **calculate_metrics(y[test_idx], pred)})
+    out = pd.DataFrame(rows)
+    out.to_csv(os.path.join(OUTPUT_DIR, "majority_baseline_folds.csv"), index=False)
+    out.agg(["mean", "std"]).to_csv(os.path.join(OUTPUT_DIR, "majority_baseline_summary.csv"))
+    return out
+
+
+def run_class_weight_ablation(X, y, cv, preprocessing, feature_config):
+    """Compare balanced vs unbalanced RF/LR/SVM without changing the main pipeline."""
+    rows = []
+    for model_name in ["RF", "LR", "SVM"]:
+        for balanced in [False, True]:
+            label = "balanced" if balanced else "unbalanced"
+            for fold, (train_idx, test_idx) in enumerate(cv.split(X, y), start=1):
+                features = CombinedFeatures(preprocessing=preprocessing, **feature_config)
+                features.fit(X.iloc[train_idx], y[train_idx])
+                X_train = features.transform(X.iloc[train_idx])
+                X_test = features.transform(X.iloc[test_idx])
+                model = create_model(model_name, balanced=balanced)
+                model.fit(X_train, y[train_idx])
+                pred = model.predict(X_test)
+                rows.append({
+                    "Model": model_name, "Class_Weight": label, "Fold": fold,
+                    **calculate_metrics(y[test_idx], pred)
+                })
+    out = pd.DataFrame(rows)
+    out.to_csv(os.path.join(OUTPUT_DIR, "class_weight_ablation_folds.csv"), index=False)
+    out.groupby(["Model", "Class_Weight"])[
+        ["Accuracy", "Precision", "Specificity", "Recall", "Macro-F1",
+         "NonAbusive_F1", "Abusive_F1"]
+    ].agg(["mean", "std"]).to_csv(
+        os.path.join(OUTPUT_DIR, "class_weight_ablation_summary.csv")
+    )
+    return out
+
+
+def run_final_rf_oof_analysis(X, y, cv, preprocessing, feature_config):
+    """Generate aggregate OOF predictions, confusion matrix and error files for RF."""
+    records = []
+    for fold, (train_idx, test_idx) in enumerate(cv.split(X, y), start=1):
+        features = CombinedFeatures(preprocessing=preprocessing, **feature_config)
+        features.fit(X.iloc[train_idx], y[train_idx])
+        X_train = features.transform(X.iloc[train_idx])
+        X_test = features.transform(X.iloc[test_idx])
+        model = create_model("RF")
+        model.fit(X_train, y[train_idx])
+        pred = model.predict(X_test)
+        if hasattr(model, "predict_proba"):
+            prob = model.predict_proba(X_test)[:, 1]
+        else:
+            prob = np.full(len(pred), np.nan)
+        for pos, idx in enumerate(test_idx):
+            records.append({
+                "row_index": int(idx), "fold": fold,
+                "text": X.iloc[idx], "true_label": int(y[idx]),
+                "predicted_label": int(pred[pos]),
+                "abusive_probability": float(prob[pos]),
+            })
+    oof = pd.DataFrame(records).sort_values("row_index")
+    oof.to_csv(os.path.join(OUTPUT_DIR, "rf_oof_predictions.csv"), index=False)
+
+    cm = confusion_matrix(oof["true_label"], oof["predicted_label"], labels=[0, 1])
+    pd.DataFrame(cm, index=["Actual_0", "Actual_1"],
+                 columns=["Predicted_0", "Predicted_1"]).to_csv(
+        os.path.join(OUTPUT_DIR, "rf_oof_confusion_matrix.csv")
+    )
+    pd.DataFrame([calculate_metrics(oof["true_label"], oof["predicted_label"])]).to_csv(
+        os.path.join(OUTPUT_DIR, "rf_oof_metrics.csv"), index=False
+    )
+
+    fp = oof[(oof.true_label == 0) & (oof.predicted_label == 1)].copy()
+    fn = oof[(oof.true_label == 1) & (oof.predicted_label == 0)].copy()
+    fp.to_csv(os.path.join(OUTPUT_DIR, "rf_false_positives.csv"), index=False)
+    fn.to_csv(os.path.join(OUTPUT_DIR, "rf_false_negatives.csv"), index=False)
+
+    # Useful for later threshold/error analysis; does not change the reported 0.5 model.
+    bins = [0.0, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    oof["probability_bin"] = pd.cut(oof["abusive_probability"], bins=bins,
+                                      include_lowest=True, right=True)
+    confidence = oof.groupby("probability_bin", observed=False).agg(
+        Count=("true_label", "size"),
+        Abusive_Rate=("true_label", "mean"),
+        Mean_Probability=("abusive_probability", "mean")
+    ).reset_index()
+    confidence.to_csv(os.path.join(OUTPUT_DIR, "rf_probability_bins.csv"), index=False)
+    return oof
+
+
+def run_oof_model_predictions(X, y, cv, preprocessing, feature_config, model_names):
+    """Generate paired out-of-fold predictions for multiple models on identical folds."""
+    records = []
+    for fold, (train_idx, test_idx) in enumerate(cv.split(X, y), start=1):
+        features = CombinedFeatures(preprocessing=preprocessing, **feature_config)
+        features.fit(X.iloc[train_idx], y[train_idx])
+        X_train = features.transform(X.iloc[train_idx])
+        X_test = features.transform(X.iloc[test_idx])
+        for model_name in model_names:
+            model = create_model(model_name)
+            model.fit(X_train, y[train_idx])
+            pred = model.predict(X_test)
+            for pos, idx in enumerate(test_idx):
+                records.append({
+                    "row_index": int(idx), "fold": fold, "model": model_name,
+                    "true_label": int(y[idx]), "predicted_label": int(pred[pos]),
+                })
+    return pd.DataFrame(records)
+
+
+def run_paired_permutation_test(oof_predictions, model_a="RF", model_b="LR", n_permutations=5000):
+    """Paired permutation test on OOF correctness differences.
+
+    The test is deliberately secondary/exploratory. It uses identical held-out
+    examples for both models, so each example contributes a paired correctness
+    difference. The test does not alter model selection or the reported CV mean.
+    """
+    a = oof_predictions[oof_predictions["model"] == model_a].set_index("row_index")
+    b = oof_predictions[oof_predictions["model"] == model_b].set_index("row_index")
+    common = a.index.intersection(b.index)
+    if len(common) == 0:
+        raise ValueError("No paired OOF predictions available for the requested models.")
+
+    ca = (a.loc[common, "predicted_label"].values == a.loc[common, "true_label"].values).astype(int)
+    cb = (b.loc[common, "predicted_label"].values == b.loc[common, "true_label"].values).astype(int)
+    observed = float(np.mean(ca - cb))
+
+    rng = np.random.default_rng(RANDOM_STATE)
+    diffs = ca - cb
+    exceed = 0
+    for _ in range(n_permutations):
+        swap = rng.integers(0, 2, size=len(diffs), dtype=np.int8)
+        permuted = np.where(swap == 1, -diffs, diffs)
+        if abs(float(np.mean(permuted))) >= abs(observed):
+            exceed += 1
+    p_value = (exceed + 1) / (n_permutations + 1)
+
+    # Also provide a paired bootstrap CI for the primary metric (macro-F1).
+    y_true = a.loc[common, "true_label"].values
+    pa = a.loc[common, "predicted_label"].values
+    pb = b.loc[common, "predicted_label"].values
+    rng = np.random.default_rng(RANDOM_STATE)
+    boot_diffs = np.empty(n_permutations, dtype=float)
+    n = len(common)
+    for i in range(n_permutations):
+        idx = rng.integers(0, n, size=n)
+        boot_diffs[i] = (
+            f1_score(y_true[idx], pa[idx], average="macro", zero_division=0)
+            - f1_score(y_true[idx], pb[idx], average="macro", zero_division=0)
+        )
+    observed_macro = (
+        f1_score(y_true, pa, average="macro", zero_division=0)
+        - f1_score(y_true, pb, average="macro", zero_division=0)
+    )
+    ci_low, ci_high = np.percentile(boot_diffs, [2.5, 97.5])
+
+    result = pd.DataFrame([{
+        "Model_A": model_a,
+        "Model_B": model_b,
+        "Paired_OOF_Observations": len(common),
+        "Observed_Accuracy_Difference": observed,
+        "Observed_MacroF1_Difference": observed_macro,
+        "MacroF1_Difference_Bootstrap_CI_Low": ci_low,
+        "MacroF1_Difference_Bootstrap_CI_High": ci_high,
+        "Bootstrap_Iterations": n_permutations,
+        "Permutation_Iterations": n_permutations,
+        "Two_Sided_Accuracy_Permutation_P": p_value,
+    }])
+    result.to_csv(os.path.join(OUTPUT_DIR, "rf_vs_lr_paired_permutation_test.csv"), index=False)
+    return result
+
+
+def run_repeated_rf_stability(X, y, preprocessing, feature_config, repeats=3):
+    """Optional repeated 5-fold RF stability check; separate from the main fixed-seed results."""
+    cv = RepeatedStratifiedKFold(
+        n_splits=N_SPLITS, n_repeats=repeats, random_state=RANDOM_STATE
+    )
+    rows = []
+    for split_no, (train_idx, test_idx) in enumerate(cv.split(X, y), start=1):
+        features = CombinedFeatures(preprocessing=preprocessing, **feature_config)
+        features.fit(X.iloc[train_idx], y[train_idx])
+        X_train = features.transform(X.iloc[train_idx])
+        X_test = features.transform(X.iloc[test_idx])
+        model = create_model("RF")
+        model.fit(X_train, y[train_idx])
+        pred = model.predict(X_test)
+        rows.append({"Split": split_no, **calculate_metrics(y[test_idx], pred)})
+    out = pd.DataFrame(rows)
+    out.to_csv(os.path.join(OUTPUT_DIR, "rf_repeated5fold_folds.csv"), index=False)
+    out.agg(["mean", "std"]).to_csv(os.path.join(OUTPUT_DIR, "rf_repeated5fold_summary.csv"))
+    return out
+
+
 # ------------------------- Optional annotation agreement -------------------------
 
 def krippendorff_alpha_nominal(data):
@@ -805,12 +1019,46 @@ def run_annotation_agreement(df):
     return result
 
 
+# ------------------------- Dataset / metadata audit -------------------------
+
+def run_dataset_audit(df):
+    """Document duplicates and availability of metadata without changing the dataset."""
+    text = df["text"].fillna("").astype(str)
+    duplicate_rows = int(text.duplicated(keep=False).sum())
+    exact_duplicate_excess = int(text.duplicated(keep="first").sum())
+    metadata_candidates = {
+        "author": [c for c in df.columns if c.lower() in {"author", "author_id", "user_id", "username"}],
+        "thread": [c for c in df.columns if c.lower() in {"thread", "thread_id", "conversation_id"}],
+        "time": [c for c in df.columns if c.lower() in {"timestamp", "time", "datetime", "created_at", "date"}],
+        "language": [c for c in df.columns if c.lower() in {"language", "lang"}],
+    }
+    rows = [{
+        "Rows": len(df),
+        "Unique_Texts": int(text.nunique()),
+        "Rows_In_Duplicate_Clusters": duplicate_rows,
+        "Exact_Duplicate_Excess": exact_duplicate_excess,
+        "Author_Metadata_Available": bool(metadata_candidates["author"]),
+        "Thread_Metadata_Available": bool(metadata_candidates["thread"]),
+        "Time_Metadata_Available": bool(metadata_candidates["time"]),
+        "Language_Metadata_Available": bool(metadata_candidates["language"]),
+        "Author_Columns": ";".join(metadata_candidates["author"]),
+        "Thread_Columns": ";".join(metadata_candidates["thread"]),
+        "Time_Columns": ";".join(metadata_candidates["time"]),
+        "Language_Columns": ";".join(metadata_candidates["language"]),
+    }]
+    out = pd.DataFrame(rows)
+    out.to_csv(os.path.join(OUTPUT_DIR, "dataset_metadata_audit.csv"), index=False)
+    return out
+
+
 # ------------------------- Main -------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Enhanced abusive-language ML experiment")
     parser.add_argument("--run-stage0", action="store_true", help="Re-run the existing E2 RF baseline; omitted by default because the current result is already available.")
     parser.add_argument("--skip-annotation", action="store_true")
+    parser.add_argument("--skip-new-diagnostics", action="store_true", help="Skip additive diagnostics; existing stages remain unchanged.")
+    parser.add_argument("--run-repeated-stability", action="store_true", help="Run optional repeated 5-fold RF stability check (3 repeats).")
     parser.add_argument("--dataset", default=DATASET)
     args = parser.parse_args()
 
@@ -827,6 +1075,7 @@ def main():
 
     X = df["text"]
     y = df["label"].values
+    run_dataset_audit(df)
     cv = StratifiedKFold(n_splits=N_SPLITS, shuffle=True, random_state=RANDOM_STATE)
 
     print("=" * 90)
@@ -865,6 +1114,26 @@ def main():
         X, y, cv, best_preprocessing, best_feature_config
     )
 
+    # Additive diagnostics: these do not modify the existing selected model or reported stages.
+    if RUN_NEW_DIAGNOSTICS and not args.skip_new_diagnostics:
+        print("\nRunning additive diagnostics (does not alter the main experiment)...")
+        run_majority_baseline(y, cv)
+        run_class_weight_ablation(
+            X, y, cv, best_preprocessing, best_feature_config
+        )
+        run_final_rf_oof_analysis(
+            X, y, cv, best_preprocessing, best_feature_config
+        )
+        paired = run_oof_model_predictions(
+            X, y, cv, best_preprocessing, best_feature_config, ["RF", "LR"]
+        )
+        paired.to_csv(os.path.join(OUTPUT_DIR, "rf_lr_paired_oof_predictions.csv"), index=False)
+        run_paired_permutation_test(paired, "RF", "LR", n_permutations=5000)
+        if args.run_repeated_stability:
+            run_repeated_rf_stability(
+                X, y, best_preprocessing, best_feature_config, repeats=3
+            )
+
     manifest = pd.DataFrame([{
         "Dataset": args.dataset,
         "Rows": len(df),
@@ -882,6 +1151,7 @@ def main():
         "LR": "L2, C=1.0, class_weight=balanced, max_iter=2000, random_state=42",
         "NB": "MultinomialNB(alpha=1.0)",
         "GB": "100 estimators, learning_rate=0.1, max_depth=3, SVD=200, random_state=42",
+        "Additional_Diagnostics": "majority baseline, class-weight ablation, RF OOF confusion/error analysis, probability bins; optional repeated 5-fold RF stability",
     }])
     manifest.to_csv(os.path.join(OUTPUT_DIR, "experiment_manifest.csv"), index=False)
 

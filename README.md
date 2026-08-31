@@ -77,10 +77,24 @@ scale-sensitive (KNN, RF). Stage 4 conducts a final **classifier comparison**
 (SVM, KNN, LR, NB, GB, RF) on the winning preprocessing and feature
 configuration. An optional Stage 0 reproduces the E2 Random Forest baseline
 for direct comparison, and an optional annotation-agreement analysis is run
-when the dataset contains independent annotator label columns. Outputs are
-written to `results/enhanced/` (`stage0_*`, `stage1_*`, `stage2_*`,
-`stage3_*`, `stage4_*` fold and summary CSVs, `FINAL_ENHANCED_RESULTS.csv`,
-and `experiment_manifest.csv`).
+when the dataset contains independent annotator label columns.
+
+Alongside the four stages, the script emits additive diagnostics: a
+**dataset metadata audit** (`dataset_metadata_audit.csv`); a **majority-class
+baseline** (`majority_baseline_*`); a **class-weight ablation** contrasting
+balanced and unbalanced settings for RF, LR and SVM
+(`class_weight_ablation_*`); a **Random Forest out-of-fold error analysis**
+comprising per-record predictions, confusion matrix, per-metric summary,
+false-positive and false-negative listings, and probability-bin calibration
+(`rf_oof_*`, `rf_false_positives.csv`, `rf_false_negatives.csv`,
+`rf_probability_bins.csv`); a **paired RF-vs-LR permutation test** with
+bootstrap confidence intervals on the OOF predictions
+(`rf_lr_paired_oof_predictions.csv`,
+`rf_vs_lr_paired_permutation_test.csv`); and an optional
+**RepeatedStratifiedKFold RF stability** analysis
+(`rf_repeated5fold_folds.csv`, `rf_repeated5fold_summary.csv`). All outputs
+are written to `results/enhanced/` alongside `FINAL_ENHANCED_RESULTS.csv`
+and `experiment_manifest.csv`.
 
 ---
 
@@ -170,11 +184,14 @@ python -m nltk.downloader vader_lexicon punkt punkt_tab \
    python single_algorithms_experiment.py
    python ensemble_experiment.py
    python feature_ablation_experiment.py
-   python enhanced_experiment.py --run-stage0
+   python enhanced_experiment.py --run-stage0 --run-repeated-stability
    ```
 
-   Omit `--run-stage0` to skip the E2 baseline reproduction; add
-   `--skip-annotation` to skip the annotator-agreement analysis.
+   Additional CLI flags: omit `--run-stage0` to skip baseline reproduction,
+   add `--skip-annotation` to skip annotator agreement, add
+   `--skip-new-diagnostics` to skip the additive diagnostic outputs, and
+   omit `--run-repeated-stability` to skip the repeated 5-fold RF stability
+   analysis.
 
 Each script performs dataset validation, TF-IDF feature extraction,
 stratified 5-fold cross-validation, and writes its aggregated results into
@@ -187,6 +204,10 @@ the `results/` directory.
 - `results/algorithm_results.csv` and `results/ensemble_results.csv` were regenerated on `Updated_dataset.csv` on 2026-08-29. Corresponding run logs are in `results/single_run.log` and `results/ensemble_run.log`.
 - `results/feature_ablation/FINAL_RESULTS.csv` reports the Stage 2 classifier comparison on the winning feature configuration selected in Stage 1; per-fold and summary files for both stages are alongside it in `results/feature_ablation/`.
 - `results/enhanced/FINAL_ENHANCED_RESULTS.csv` and `results/enhanced/experiment_manifest.csv` summarise the four-stage enhanced experiment (preprocessing → feature → scaling → classifier ablation); per-stage fold and summary CSVs are alongside them in `results/enhanced/`.
+- `results/enhanced/rf_oof_confusion_matrix.csv` and the companion `rf_oof_*` files record the Random Forest out-of-fold error analysis on the winning configuration.
+- `results/enhanced/rf_vs_lr_paired_permutation_test.csv` reports the paired RF-vs-LR permutation test with bootstrap confidence intervals on OOF predictions.
+- `results/enhanced/class_weight_ablation_summary.csv` and `results/enhanced/majority_baseline_summary.csv` contextualise the classifier results against class-weight variants and a majority-class baseline.
+- `results/enhanced/rf_repeated5fold_summary.csv` reports the repeated 5-fold Random Forest stability check, and `results/enhanced/dataset_metadata_audit.csv` documents the corpus audit (duplicates, author/thread/time/language metadata availability).
 
 ---
 
